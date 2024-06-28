@@ -1,20 +1,10 @@
-\documentclass[a4paper]{article}\usepackage{amsmath,amssymb,amsthm,tikz,hyperref,mathtools}
+\documentclass[a4paper]{article}\usepackage{amsmath,amssymb,amsthm,tikz,hyperref,mathtools,mathrsfs}
 \usepackage{bbm}
 \usepackage[margin=1cm]{geometry}
 
 \newtheorem{exercise}{Exercise}[section]
 
-\newcommand*{\E}{\mathbb{E}}
-\newcommand*{\R}{\mathbb{R}}
-\newcommand*{\cN}{\mathcal{N}}
-\newcommand*{\Var}{\mathrm{Var}}
-\newcommand*{\Cov}{\mathrm{Cov}}
-\newcommand*{\esssup}{\mathrm{ess}\,\sup}
-\newcommand*{\ind}[1]{\mathbbm{1}_{[{#1}]}}
-\newcommand*{\defeq}{\stackrel{\mathrm{def}}{=}}
-\newcommand*{\cP}{\mathcal{P}}
-\newcommand*{\cM}{\mathcal{M}}
-\newcommand*{\cF}{\mathcal{F}}
+\input{commands.tex}
 
 \renewcommand{\theenumi}{(\alph{enumi})}
 \makeatletter
@@ -274,7 +264,7 @@
   Note that the distribution of $S_n$ is symmetric, i.e., $P(S_n = k) = P(S_n = -k)$ for all $k$.
   This means
   \[
-    E(\sin S_n | S_n^2) = \frac{\sin \sqrt{S_n^2} - \sin\sqrt{S_n^2}}{2} = 0.
+    E(\sin S_n | S_n^2) = \frac{\sin \sqrt{S_n^2} - \sin\sqrt{S_n^2}}{2} = 0. 
   \]
 \end{proof}
 
