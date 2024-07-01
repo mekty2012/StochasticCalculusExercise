@@ -397,9 +397,9 @@
     \frac{1}{\pi} = \sum_{n=0}^\infty \frac{((2n)!)^3 (42n + 5)}{(n!)^6 16^{3n+1}} = \sum_{n=0}^\infty \frac{((2n)!)^3 (42n+5)}{(n!)^6 2^{11n+3}} \frac{1}{2^{n+1}},
   \]
   which can be found in \href{https://en.wikipedia.org/wiki/List_of_formulae_involving_%CF%80#Other_infinite_series}{here}. 
-  Here, the term
+  Here, the term satisfies following:
   \[
-    \frac{((2n)!)^3 (42n+5)}{(n!)^6 2^{11n+3}} \le \frac{\left( n! \cdot 2^n \right)^6 \cdot (42n+5)}{(n!)^6 2^{11n+3}} = \frac{42n+5}{2^{5n+3}} \in (0, 1).
+    0 \le \frac{((2n)!)^3 (42n+5)}{(n!)^6 2^{11n+3}} \le \frac{\left( n! \cdot 2^n \right)^6 \cdot (42n+5)}{(n!)^6 2^{11n+3}} = \frac{42n+5}{2^{5n+3}} \le 1.
   \]
   So our experiment is as follows:
   \begin{enumerate}
@@ -424,7 +424,7 @@
   \begin{align*}
     P(\text{A wins}) &= \sum_{k=0}^\infty P(n = k) P(S_T > 0 | n = k)
     \\
-    {} &= \sum_{k=0}^\infty \frac{1}{2^{k+1}} \frac{((2k)!)^3 (42k+5)}{(k!)^6 2^{11k+3}}
+    {} &= \sum_{k=0}^\infty  \frac{((2k)!)^3 (42k+5)}{(k!)^6 2^{11k+3}} \frac{1}{2^{k+1}}
     \\
     {} &= \frac{1}{\pi}.
   \end{align*}
