@@ -268,4 +268,166 @@
   \]
 \end{proof}
 
+\begin{customExercise}{6}
+  In this exercise, we consider simple, nonsymmetric random walk.
+  Suppose $1/2 < 1 < 1$ and $X_1, X_2, \ldots$ are independent random variables with
+  \[
+    P(X_j = 1) = 1 - P(X_j = -1) = q.
+  \]
+  Let $S_0 = 0$ and $S_n = X_1 + \cdots + X_n$.
+  Let $\cF_n$ denote the information contained in $X_1, \ldots, X_n$.
+  \begin{enumerate}
+    \item Which of these is $S_n$: martingale, submartingale, supermartingale?
+    \item For which values of $r$ is $M_n = S_n - rn$ a martingale?
+    \item Let $\theta = (1-q)/q$ and let 
+    \[
+      M_n = \theta^{S_n}.
+    \]
+    Show that $M_n$ is a martingale.
+    \item Let $a, b$ be positive integers, and 
+    \[
+      T_{a,b} = \min\{j : S_J = b \text{ or }S_j = -1\}.
+    \]
+    Use the optional sampling theorem to determine 
+    \[
+      P(S_{T_{a,b}} = b).
+    \]
+    \item Let $T_a = T_{a,\infty}$. Find
+    \[
+      P(T_a < \infty).
+    \]
+  \end{enumerate}
+\end{customExercise}
+\begin{proof}
+  \begin{enumerate}
+    \item We have
+    \[
+      E[S_n | \cF_{n-1}] = S_{n-1} + E[X_n] = S_{n-1} + 2q-1 > S_{n-1},
+    \]
+    so it is a submartingale.
+    \item As we have seen right before, subtracting $2q-1$ everytime will give us a martingale. 
+    So, $r = 2q-1$.
+    \item 
+    \begin{align*}
+      E[M_n | \cF_{n-1}] &= E\left[\theta^{S_n} | \cF_{n-1}\right]
+      \\
+      {} &= E \left[\theta^{\sum_{i=1}^n X_i} | \cF_{n-1}\right]
+      \\
+      {} &= E \left[ \prod_{i=1}^n \theta^{X_i} | \cF_{n-1} \right]
+      \\
+      {} &= \prod_{i=1}^{n-1} \theta^{X_i} E[\theta^{X_n}]
+      \\
+      {} &= \theta^{S_{n-1}} E[\theta^{X_n}]
+      \\
+      {} &= \theta^{S_{n-1}} \left( q \cdot \frac{1-q}{q} + (1-q) \cdot \frac{q}{1-q} \right)
+      \\
+      {} &= \theta^{S_{n-1}}.
+    \end{align*}
+    \item Let's use the previous example. By the definition of stopping time $T$, we have
+    \[
+      S_{n \wedge T_{a,b}} \in [-a, b],
+    \]
+    hence
+    \[
+      \E[M_{n \wedge T_{a,b}}^2] \le \theta^{-2} < \infty,
+    \]
+    satisfying the condition of optional sampling theorem 3.
+    So,
+    \[
+      P(T=b) \theta^b + P(T=-a) \theta^{-a} = \E[M_T] = \E[M_0] = 1.
+    \]
+    Write $P(T=b) = p$, then we have
+    \[
+      P(T=b) = \frac{\theta^{-a} - 1}{\theta^{-a} - \theta^b}, \quad P(T=a) = \frac{1 - \theta^b}{\theta^{-a} - \theta^b}.
+    \]
+    (Note that $\theta \in (0, 1)$, therefore $\theta^{-a} > 1$ and $\theta^b < 1$.)
+    \item We use similar technique as Example 1.3.3., 
+    \[
+      P(T_a = \infty) = \lim_{b \to \infty} P(S_{T_{a,b}} = b) = \lim_{b \to \infty} \frac{\theta^{-a} - 1}{\theta^{-a} - \theta^b} = \frac{\theta^{-a} - 1}{\theta^{-a}}.
+    \]
+    So,
+    \[
+      P(T_a < \infty) = \frac{1}{\theta^{-a}}.
+    \]
+  \end{enumerate}
+\end{proof}
+
+\begin{customExercise}{7}
+  Suppose two people want to play a game in which person A has probability 2/3 of winning. 
+  However, the only thing that they have is a fair coin which they can flip as many times as they want.
+  They wish to find a method that requires only a finite number of coin flips.
+  \begin{enumerate}
+    \item Give one method to use the coins to simulate an experiment with probability 2/3 of success. 
+    The number of flips needed can be ranodm, but it must be finite with probability one.
+    \item Suppose $K < \infty$.
+    Explain why there is no method such that with probability one we flip the coin at most $K$ times.
+  \end{enumerate}
+\end{customExercise}
+\begin{proof}
+  \begin{enumerate}
+    \item Let $S_n = 1 + X_1 + \cdots + X_n$, where $X_i$ is the result of $i$-th coin flip.
+    Define the stopping time
+    \[
+      T = \min\{n : S_n = 0 \text{ or } 3\}
+    \]
+    then by Example 1.3.1., we have
+    \[
+      P(S_T = 3) = \frac{1}{3}, \quad P(S_T = 0) = \frac{2}{3}.
+    \]
+    Note that we have $P(T < \infty) = 1$.
+
+    So, the experiment is as follows:
+    \begin{enumerate}
+      \item Set initial value to one.
+      \item Flip the coin, and add one or subtract one according to the result.
+      \item If the value is zero, A wins. If the value is three, B wins.
+      \item Otherwise, repeat the second step.
+    \end{enumerate}
+    \item Given at most $K$ coin flips, we have total $2^K$ equiprobable possible outcomes. 
+    There is no way to divide these outcomes into three equiprobable events.
+  \end{enumerate}
+\end{proof}
+
+\begin{customExercise}{8}
+  Repeat the last exercise with 2/3 replaced by $1/\pi$.
+\end{customExercise}
+\begin{proof}
+  We will leverage the series expansion of $1/\pi$,
+  \[
+    \frac{1}{\pi} = \sum_{n=0}^\infty \frac{((2n)!)^3 (42n + 5)}{(n!)^6 16^{3n+1}} = \sum_{n=0}^\infty \frac{((2n)!)^3 (42n+5)}{(n!)^6 2^{11n+3}} \frac{1}{2^{n+1}},
+  \]
+  which can be found in \href{https://en.wikipedia.org/wiki/List_of_formulae_involving_%CF%80#Other_infinite_series}{here}. 
+  Here, the term
+  \[
+    \frac{((2n)!)^3 (42n+5)}{(n!)^6 2^{11n+3}} \le \frac{\left( n! \cdot 2^n \right)^6 \cdot (42n+5)}{(n!)^6 2^{11n+3}} = \frac{42n+5}{2^{5n+3}} \in (0, 1).
+  \]
+  So our experiment is as follows:
+  \begin{enumerate}
+    \item Let $n = 0$.
+    \item We flip the coin. If it is head, we proceed to the next step. If not, we repeat this step with $n \leftarrow n + 1$.
+    \item Now, we construct the martingale. Let $S_k = X_1 + \cdots + X_k$, where $X_i$ is the result of $i$-th coin flip.
+    \item Define the stopping time as
+    \[
+      T = \min \{k : S_k = -((2n)!)^3 (42n+5) \text{ or }S_k = (n!)^6 2^{11n+3}-((2n)!)^3 (42n+5)\}.
+    \]
+    \item If $S_T > 0$, A wins. If $S_T < 0$, B wins. 
+  \end{enumerate}
+  First, by construction of our martingale and Example 1.3.2.'s reasoning, we have
+  \[
+    P(S_T > 0) = \frac{((2n)!)^3 (42n+5)}{(n!)^6 2^{11n+3}}.
+  \]
+  Moreover, by construction of initial step, we have
+  \[
+    P(n = k) = \frac{1}{2^{k+1}}.
+  \]
+  Therefore, summing up, we have
+  \begin{align*}
+    P(\text{A wins}) &= \sum_{k=0}^\infty P(n = k) P(S_T > 0 | n = k)
+    \\
+    {} &= \sum_{k=0}^\infty \frac{1}{2^{k+1}} \frac{((2k)!)^3 (42k+5)}{(k!)^6 2^{11k+3}}
+    \\
+    {} &= \frac{1}{\pi}.
+  \end{align*}
+\end{proof}
+
 \end{document}
