@@ -430,4 +430,161 @@
   \end{align*}
 \end{proof}
 
+
+\begin{customExercise}{9}
+  Let $X_1, X_2, \ldots$ be independent, identically distributed random variables with 
+  \[
+    P(X_j = 2) = \frac{1}{3}, \quad P\left(X_j = \frac{1}{2}\right) = \frac{2}{3}.
+  \]
+  Let $M_0 = 1$ and for $n \ge 1$, $M_n = X_1 X_2 \cdots X_n$.
+  \begin{enumerate}
+    \item Show that $M_n$ is a matringale.
+    \item Explain why $M_n$ satisfies the conditions of the martingale convergence theorem.
+    \item Find $M_\infty = \lim_{n \to \infty} M_n$. Explain why $M_\infty = 0$.
+    \item Use the optional sampling theorem to determine the probability that $M_n$ ever attains a value as large as $64$.
+    \item Does there exist a $C < \infty$ such that $\E[M_n^2] \le C$ for all $n$?
+  \end{enumerate}
+\end{customExercise}
+\begin{proof}
+  \begin{enumerate}
+    \item We have
+    \begin{align*}
+      E[M_n | \cF_{n-1}] &= E[X_n X_{n-1} \cdots X_1 | \cF_{n-1}]
+      \\
+      {} &= E[X_n | \cF_{n-1}] X_{n-1} \cdots X_1
+      \\
+      {} &= E[X_n] X_{n-1} \cdots X_1
+      \\
+      {} &= \left( 2 \cdot \frac{1}{3} + \frac{1}{2} \cdot \frac{2}{3} \right) \cdot X_{n-1} \cdots X_1
+      \\
+      {} &= M_{n-1}.
+    \end{align*}
+    \item Observe that $M_n$ is always positive, hence $\E|M_n| = \E[M_n] = \E[M_0] = 1$.
+    \item Consider $\log_2 M_n$, then by the strong law of large number, we have
+    \[
+      \frac{1}{n} \log_2 M_n \stackrel{a.s.}{\to} - \frac{1}{3}.
+    \]
+    For some sequence $a_n$, one can see that $\lim_{n \to \infty} \frac{1}{n} a_n < 0$ implies $\lim_{n \to \infty} a_n = -\infty$.
+    Therefore,
+    \[
+      \lim M_n \stackrel{a.s.}{\to} 0.
+    \] 
+    \item Since $M_n$ is martingale, we have $\E M_n = \E M_0 = 1$.
+    Let $T_a$ be the stopping time such that
+    \[
+      T_a = \min \{n : M_n = 2^{-a} \text{ or } 64\}.
+    \]
+    Then we have
+    \[
+      \E M_{T_a} = 2^{-a} P(M_{T_a} = 2^{-a}) + 64 P(M_{T_a} = 64) = 1.
+    \]
+    Write $P(M_{T_a} = 64) = p$, then
+    \[
+      64 p + 2^{-a} (1-p) = 1, \quad p = \frac{1 - 2^{-a}}{64 - 2^{-a}}.
+    \]
+    Under the limit $a \to \infty$, we have 
+    \[
+      P(M_{T_\infty} = 64) = \frac{1}{64}.
+    \]
+    \item Consider the event that only $2$ appears in the sequence. 
+    Then, the probability of this event until $n$ is $3^{-n}$, but the value of $M_n^2$ is $4^n$.
+    Since $M_n^2 \ge 0$, we have
+    \[
+      \E M_n^2 \ge 4^n 3^{-n} \to \infty.
+    \]
+  \end{enumerate}
+\end{proof}
+
+\begin{customExercise}{10}
+  Let $X_1, X_2, \ldots$ be independent, identically distributed random variables with
+  \[
+    P(X_j = 1) = q, \quad P(X_j = -1) = 1-q.
+  \]
+  Let $S_0 = 0$ and $S_n = X_1 + \cdots + X_n$. Let $Y_n = \exp(S_n)$.
+  \begin{enumerate}
+    \item For which value of $q$ is $Y_n$ a martingale?
+    \item For the remaining parts of this exercise assume $q$ takes the value from part 1.
+    Explain why $Y_n$ satisfies the conditions of the martingale convergence theorem.
+    \item Find $Y_\infty = \lim_n Y_n$. Explain why $Y_\infty = 0$.
+    \item Use the optional sampling theorem to determine the probability that $Y_n$ ever attains a value as large as $100$.
+    \item Does there exist a $C < \infty$ such that $\E[Y_n^2] \le C$ for all $n$?
+  \end{enumerate}
+\end{customExercise}
+\begin{proof}
+  \begin{enumerate}
+    \item We have 
+    \begin{align*}
+      E [Y_{n+1} | \cF_n] &= E \left[ \prod_{i=1}^{n+1} \exp(X_i) | \cF_n\right]
+      \\
+      {} &= \prod_{i=1}^n \exp(X_i) E[\exp(X_{n+1}) | \cF_n]
+      \\
+      {} &= \exp(S_n) E[\exp(X_{n+1})]
+      \\
+      {} &= \exp(S_n) \left( qe + (1-q) \cdot \frac{1}{e}  \right),
+    \end{align*}
+    so $Y_n$ is a martingale if and only if $qe + (1-q) / e = 1$, which is true when $q = \frac{1}{e+1}$.
+    \item Note that $Y_n$ is always positive, hence $\E|Y_n| = \E[Y_n] = \E[Y_0] = 1$.
+    \item Consider $\log Y_n$, then by the strong law of large number, we have
+    \[
+      \lim_{n \to \infty} \frac{1}{n} \log Y_n = \frac{-e+1}{e+1} < 0.
+    \]
+    By the same reasoning as in Exercise 9, the limit of $Y_n$ is $0$.
+    \item Note that we have $e^k \ge 100$ when $k \ge 5$, for integer $k$.
+    Let $T_a = \min\{n : Y_n = e^{-a} \text{ or } e^5\}$ be the stopping time.
+    Then, by the optional sampling theorem, we have
+    \[
+      1 = \E Y_0 = \E Y_{T_a} = e^5 P(Y_{T_a} = e^5) + e^{-a} P(Y_{T_a} = e^{-a}).
+    \]
+    If we write $P(Y_{T_a} = e^5) = p$, then we have
+    \[
+      e^5 p + e^{-a} (1-p) = 1, \quad p = \frac{1 - e^{-a}}{e^5 - e^{-a}}.
+    \]
+    Under the limit $a \to \infty$, we have
+    \[
+      P(Y_{T_\infty} = e^5) = \frac{1}{e^5}.
+    \]
+    \item Again, consider the event that only $X_j=1$ happens. The probability of this event up to $n$ is $(1+e)^{-n}$, where the value of $Y_n^2$ is $e^{2n}$.
+    So we have 
+    \[
+      \E Y_n^2 \ge e^{2n} (1+e)^{-n} \to \infty.
+    \]
+  \end{enumerate}
+\end{proof}
+
+\begin{customExercise}{11}
+  This exercise concerns Polya's urn and has a computing/simulation component. 
+  Let us start with one red and one green ball as in the lecture and $M_n$ be the fraction of red balls at the $n$-th stage.
+  \begin{enumerate}
+    \item Show that the distributions of $M_n$ is uniform on the set 
+    \[
+      \left\{ \frac{1}{n+1}, \frac{2}{n+1}, \ldots, \frac{n}{n+1} \right\}.
+    \]
+    \item Write a short program that will simulate this urn. Each time you run the program note the fraction of red balls after 600 draws and after 1200 draws. Compare the two fractions. Then, repeat this twenty times.
+  \end{enumerate}
+\end{customExercise}
+\begin{proof}
+  \begin{enumerate}
+    \item At time step 1, it is trivially either $1/3$ or $2/3$.
+    Now let's suppose that the hypothesis holds at time step $n$, i.e., the distribution of $M_n$ is uniform on the set
+    \[
+      \left\{ \frac{1}{n+1}, \frac{2}{n+1}, \ldots, \frac{n}{n+1} \right\}.
+    \]
+    For the two edge cases where 
+    \[
+      M_{n+1} = \frac{1}{n+2}, \text{ or } M_{n+1} = \frac{n+1}{n+2},
+    \]
+    we have 
+    \[
+      P\left( M_{n+1} = \frac{1}{n+2} \right) = P\left( M_n = \frac{1}{n+1} \right) \cdot \frac{n}{n+1} = \frac{1}{n} \cdot \frac{n}{n+1} = \frac{1}{n+1},
+    \]
+    and similar for $M_{n+1} = \frac{n+1}{n+2}$.
+    For the rest of the cases, we have
+    \begin{align*}
+      P\left( M_{n+1} = \frac{k}{n+2} \right) &= P\left( M_n = \frac{k-1}{n+1} \right) \cdot \frac{k-1}{n+1} + P\left( M_n = \frac{k}{n+1} \right) \cdot \frac{n-k+1}{n+1}
+      \\
+      {} &= \frac{1}{n+1} \left( \frac{k-1}{n+1} + \frac{n-k+1}{n+1} \right) = \frac{1}{n+1}.
+    \end{align*}
+    \item See \texttt{polya.ipynb} for the implementation. The code contains the simulation of Polya's urn, the trajectory of this process, and the comparison of the fraction of red balls after 600 and 1200 draws.
+  \end{enumerate}
+\end{proof}
 \end{document}
